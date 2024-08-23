@@ -13,22 +13,28 @@ namespace BusinessLayer.Concrete
             _categoryDal = categoryDal;
         }
 
+        public void CategoryAdd(Category category)
+        {
+            _categoryDal.Insert(category);
+        }
+
         public List<Category> GetList()
         {
             return _categoryDal.List();
         }
 
-        public void CategoryAddBL(Category category)
-        {
-            if(category.CategoryName == "" || category.CategoryStatus == false || 
-                category.CategoryName.Length <= 2)
-            {
+        // public void CategoryAddBL(Category category)
+        // {
+        //     if(category.CategoryName == "" || category.CategoryStatus == false || 
+        //         category.CategoryName.Length <= 2)
+        //     {
 
-            } else
-            {
-                _categoryDal.Insert(category);
-            }
-        }
+        //     } 
+        //     else
+        //     {
+        //         _categoryDal.Insert(category);
+        //     }
+        // }
         
     }
     

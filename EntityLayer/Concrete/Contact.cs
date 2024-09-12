@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EntityLayer.Concrete
+﻿namespace EntityLayer.Concrete
 {
     public class Contact
     {
@@ -13,8 +7,7 @@ namespace EntityLayer.Concrete
         public string UserMail { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
-        
-
+        public DateTime ContactDate { get; set; }
 
     }
 }

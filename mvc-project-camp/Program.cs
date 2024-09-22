@@ -1,19 +1,32 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Session yapýlandýrmasý
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
+
+// Cookie tabanlý kimlik doðrulama yapýlandýrmasý
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+	{
+		options.LoginPath = "/Login/Index";
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+	});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	// Use this to redirect to a custom error page for 404 and other status codes
 	app.UseStatusCodePagesWithReExecute("/ErrorPage/{0}");
-
-	// Use this to handle unhandled exceptions and redirect to a generic error page
 	app.UseExceptionHandler("/Home/Error");
-
 	app.UseHsts();
 }
 
@@ -22,8 +35,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Kimlik doðrulama ve yetkilendirme middleware'lerini etkinleþtir
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Session'ý etkinleþtir
+app.UseSession();
 
 app.MapControllerRoute(
 	name: "default",

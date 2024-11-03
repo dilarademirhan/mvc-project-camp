@@ -27,13 +27,16 @@ namespace mvc_project_camp.Controllers
 			{
 				var claims = new List<Claim>
 				{
-					new Claim(ClaimTypes.Name, adminuserinfo.AdminUserName)
+					new Claim(ClaimTypes.Name, adminuserinfo.AdminUserName),
+					new Claim(ClaimTypes.Role, adminuserinfo.AdminRole)  
 				};
 
 				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
 				HttpContext.Session.SetString("AdminUserName", adminuserinfo.AdminUserName);
+
 				return RedirectToAction("Index", "AdminCategory");
 			}
 			else
